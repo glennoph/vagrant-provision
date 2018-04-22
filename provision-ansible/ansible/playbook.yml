@@ -1,0 +1,7 @@
+---
+- hosts: all
+  remote_user: vagrant
+  tasks:
+  - name: install apache2 web server
+    apt: name=apache2 state=present
+

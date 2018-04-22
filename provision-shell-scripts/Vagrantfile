@@ -1,0 +1,25 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+$nginx_install = <<-SCRIPT
+if [ ! -x /usr/bin/nginx ]; then
+  apt-get install -y nginx;
+fi
+
+# dft nginx dir /usr/share/nginx/html
+# replace this with symlink to vagrant dir
+if [ ! -L /usr/share/nginx/html ]; then
+  rm -rf /usr/share/nginx/html
+  ln -s /vagrant/html /usr/share/nginx/html
+fi
+SCRIPT
+
+
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "ubuntu/trusty64"
+
+  config.vm.provision "shell", inline: $nginx_install
+  config.vm.network "forwarded_port", guest:80, host:8080
+  
+end
