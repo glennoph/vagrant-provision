@@ -50,3 +50,6 @@
 
 # Box storage for spec
 **/test/vagrant-spec/boxes/*.box
+
+# ansible retry
+**/playbook.retry
