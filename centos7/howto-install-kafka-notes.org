@@ -1,28 +1,30 @@
 * Tasks to Install Kafka on linux
 
-** Download Kafka from http://kafka.apache.org/downloads
+** 1 Download Kafka from http://kafka.apache.org/downloads
 *** current version is 1.1.0 for scala 2.11 or 2.12
 *** for scala 2.11 - http://apache.mirrors.pair.com/kafka/1.1.0/kafka_2.11-1.1.0.tgz
 ** untar download file
 *** bin subdir contains startup script for kafka and zookeeper
 *** config dir contains the config settings for kafka and zookeeper
-** start zookeeper - new window/process
-*** bin/zookeeper-server-start.sh config/zookeeper.properties
-** start kafka - new window/process
-*** bin/kafka-server-start.sh config/server.properties
-** create a topic - new window/process
-*** bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic newtesttopic
+** 2 Step 2: Start the server - zk
+*** start a ZooKeeper server if you don't already have one. 
+*** below uses the convenience script packaged with kafka to get a quick-and-dirty single-node ZooKeeper instance.
+> bin/zookeeper-server-start.sh config/zookeeper.properties
+
+** 3 create a topic - new window/process
+> bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic newtesttopic
 ** list topics that were created
 *** bin/kafka-topics.sh --list --zookeeper localhost:2181 
 
-** producer - new window/process
-*** bin/kafka-console-producer.sh --broker-list localhost:9002 --topic newtesttopic
+** 4 send messages via producer - new window/process
+*** start produce specifing the topic 
+> bin/kafka-console-producer.sh --broker-list localhost:9002 --topic newtesttopic
 *** enter messages in console
 
-** consumer - new window/process
-*** bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic newtesttopic --from-beginning
+** 5 consumer - new window/process
+*** start a consumer for the topic
+> bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic newtesttopic --from-beginning
 *** messages from consumer will appear in the consumer console
-
-    
-
+*** nb msg: new consumer by passing [bootstrap-server] instead of [zookeeper]
+*** bin/kafka-console-consumer.sh --bootstrap-server localhost:2181 --topic newtesttopic --from-beginning
 
