@@ -1,0 +1,21 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  tasks:
+  - name: install emacs
+    yum:
+      name: emacs
+      state: latest
+      update_cache: yes
+  - name: install jdk
+    yum:
+      name: java-1.8.0-openjdk-devel
+      state: present
+  - name: Set JAVA_HOME env variable
+    lineinfile:
+      dest: /etc/environment
+      state: present
+      regexp: '^JAVA_HOME'
+      line: 'JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk'
+      
