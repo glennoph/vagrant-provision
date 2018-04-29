@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
   end
   
   config.vm.provider "virtualbox" do |vb|
-    vb.name = "centos7-prov-ans-java"
+    vb.name = "centos7-java-prov-ans"
   end
 
   config.vm.provision "ansible" do |ansible|
