@@ -7,8 +7,9 @@ sudo yum install -y epel-release emacs
 sudo yum install -y java-1.8.0-openjdk-devel
 java -version
 # set java_home ??? need to check this
-sudo sh -c "echo export JAVA_HOME=/usr/java/jdk1.8.0_161/jre >> /etc/environment"
-echo $JAVA_HOME
+sudo sh -c "echo export JAVA_HOME=/usr/lib/jvm/java-1.8.0/ >> /etc/environment"
+echo JAVA_HOME=$JAVA_HOME
+ls $JAVA_HOME
 exit
 if [ ! -x /etc/nginx ]; then
   # install nginx
