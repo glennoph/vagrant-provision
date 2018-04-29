@@ -18,4 +18,9 @@
       state: present
       regexp: '^JAVA_HOME'
       line: 'JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk'
-      
+  - name: execute java -version
+    shell: java -version
+  - name: execute javac -version
+    shell: javac -version
+  - name: show JAVA_HOME value
+    shell: echo $JAVA_HOME
