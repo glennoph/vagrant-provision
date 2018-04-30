@@ -1,0 +1,37 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+
+  vars:
+    zookeeper_version: 3.4.10
+    zookeeper_downurl: http://apache.mirrors.pair.com/zookeeper
+    zookeeper_home:    /opt/zookeeper
+
+  tasks:
+  - name: install nano, emacs latest
+    yum:
+      name: nano,emacs
+      state: latest
+      update_cache: yes
+
+  - name: install jdk 1.8
+    yum:
+      name: java-1.8.0-openjdk-devel
+      state: present
+  - name: Set JAVA_HOME env variable
+    lineinfile:
+      dest: /etc/environment
+      state: present
+      regexp: '^JAVA_HOME'
+      line: 'JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk'
+
+  - name: create zookeeper_home dir
+    file: path={{ zookeeper_home }} state=directory
+    
+  - name: download/expand zookeeper tar file to zookeeper_home
+    unarchive:
+      src: "{{ zookeeper_downurl }}/zookeeper-{{ zookeeper_version }}/zookeeper-{{ zookeeper_version }}.tar.gz"
+      dest: "{{ zookeeper_home }}"
+      remote_src: yes
+    

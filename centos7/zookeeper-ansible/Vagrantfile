@@ -1,0 +1,19 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  config.vm.define "centzk", primary: true do |centzk|
+    centzk.vm.box = "centos/7"
+  end
+  
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "centos7-zookeeper-ansible"
+  end
+
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook="ansible/playbook.yml"
+    ansible.verbose=true
+  end
+  
+end
