@@ -1,0 +1,39 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+
+  vars:
+    scala_version: 2.11
+    kafka_version: 1.1.0
+    kafka_downurl: http://apache.mirrors.pair.com/kafka
+    kafka_home:    /opt/kafka
+
+  tasks:
+  - name: install nano, emacs latest
+    yum:
+      name: nano,emacs
+      state: latest
+      update_cache: yes
+
+  - name: install jdk 1.8
+    yum:
+      name: java-1.8.0-openjdk-devel
+      state: present
+  - name: Set JAVA_HOME env variable
+    lineinfile:
+      dest: /etc/environment
+      state: present
+      regexp: '^JAVA_HOME'
+      line: 'JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk'
+
+  - name: create kafka_home dir
+    file: path={{ kafka_home }} state=directory
+    
+  - name: download/expand kafka tar file to kafka_home
+    unarchive:
+      src: "{{ kafka_downurl }}/{{ kafka_version }}/kafka_{{ scala_version }}-{{ kafka_version }}.tgz"
+      #src: "/tmp/kafka_{{ scala_version }}-{{ kafka_version }}.tgz"
+      dest: "{{ kafka_home }}"
+      remote_src: yes
+    
