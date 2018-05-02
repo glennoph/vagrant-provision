@@ -1,0 +1,24 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  config.vm.define "kaf1" do |kaf1|
+    kaf1.vm.box = "centos/7"
+  end
+  
+  config.vm.define "kaf2" do |kaf2|
+    kaf2.vm.box = "centos/7"
+  end
+  
+  config.vm.provider "virtualbox" do |vb|
+    #vb.name = "centos7-kafka-server2"
+    vb.cpus = 4
+  end
+
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook="playbook.yml"
+    #ansible.verbose=true
+  end
+  
+end
